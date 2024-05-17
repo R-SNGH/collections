@@ -20,6 +20,17 @@ public class SortingWithCustomKeys {
         students.entrySet().stream()
                             .sorted(Map.Entry.comparingByValue())
                             .forEach(System.out::println);
+        //collecting in another Map: 
+        //Map<Employee, Integer> result=map.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(Employee::getAge).reversed())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        //result.entrySet().stream().forEach(System.out::println);
+
+        //collecting in a new Linked HM: 
+        //The part (x, y) -> y is because of mergeFunction when find duplicate keys, it returns value of second key which found. 
+        //the forth part is mapFactory which a supplier providing a new empty Map into which the results will be inserted.
+        Map<Employee, Integer> sortedByAgeReversed=map.entrySet().stream()
+                                                             .sorted(Map.Entry.comparingByKey(Comparator.comparing(Student::getAge).reversed()))
+                                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
+        sortedByAgeReversed.entrySet().forEach(System.out::println);
 
     }
 }
